@@ -64,5 +64,5 @@ it('toggles done classs on li when click', () => {
   task.simulate('click', {preventDefault(){}})
   expect(wrapper.find('li').first().hasClass('done')).toBe(true)
   task.simulate('click', {preventDefault(){}})
-  expect(wrapper.find('li').first().hasClass('done')).toBe(false)
+  expect(wrapper.find('li').first().hasClass('done')).toBe(true)
 })

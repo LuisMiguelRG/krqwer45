@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-
-/// Modifica el componente para que se puedan agregar tareas, tachar y destacharlas y error de validacion en el input
+import './index.css'
 
 class App extends Component {
   constructor() {
