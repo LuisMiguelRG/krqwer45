@@ -14,33 +14,42 @@ class App extends Component {
     }
   }
 
-  addNewTask (event){
-    this.setState({
-      newTask: event.target.value
-    })
+  changeDone = (index) => {
+    this.setState ({
+      tasks: this.state.tasks.map( e => {
+        if (e.id === index) {
+          e.done = !e.done
+        }
+        return e
+      })
+    }) 
   }
 
-  handleClick(event) {
-    const index = this.state.tasks.findIndex(task =>
-      task.name === event.target.innerHTML
-    );
-    this.setState({
-      tasks: this.state.tasks.map((task, i) =>
-        i === index ? { name: task.name, done: !task.done } : task
-      )
-    })
-  }
-  
-  handleSubmit = (event) => {
-    if (this.state.newTask !== "") {
-      var taskId = this.state.tasks.length + 1
+  onSubmit(e) {
+    if(this.state.newTask === '') {
+
+    } else {
+      const task = {
+        id:   this.state.tasks.length + 1,
+        name: this.state.newTask,
+        done: false
+      }
+
+      console.log(task, e.target.value)
       this.setState({
-        tasks: this.state.tasks.concat({ id: taskId, name: this.state.newTask, done: false }),
-        newTask: "",
+        tasks: [...this.state.tasks, task],
+        newTask: ''
       })
     }
-    event.preventDefault();
+    
+    e.preventDefault()
   }
+
+  handleChange(e) {
+    this.setState({
+      newTask: e.target.value
+    })
+  } 
 
   render() {
     return (
@@ -48,10 +57,10 @@ class App extends Component {
         <div className="list">
           <h3>Por hacer:</h3>
           <ul className="todo">
-            {this.state.tasks.map((task, index) => <li onClick={this.handleClick.bind(this)} className={task.done ? "done" : ""} key={task.id}>{task.name}</li>)}
+            {this.state.tasks.map((task) => <li className={task.done ? 'done' : null} onClick={() => this.changeDone(task.id)} key={task.id}>{task.name}</li>)}
           </ul>
-          <form onSubmit={this.handleSubmit}>
-            <input type="text" className={this.state.newTask === "" ? "error" : ""} id="new-task" placeholder="Ingresa una tarea y oprime Enter" value={this.state.newTask} onChange={this.addNewTask.bind(this)} />
+          <form onSubmit={this.onSubmit.bind(this)}>
+            <input className={!this.state.newTask ? 'error' : null} type="text" id="new-task" placeholder="Ingresa una tarea y oprime Enter" value={this.state.newTask} onChange={this.handleChange.bind(this)} />
           </form>
         </div>
       </div>
